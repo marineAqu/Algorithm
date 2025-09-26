@@ -1,0 +1,7 @@
+-- 보호 시작일이 입양일보다 빠른 애들만,보호 시작일 빠른 순으로
+SELECT i.ANIMAL_ID, i.NAME
+    FROM ANIMAL_INS i, ANIMAL_OUTS o
+    WHERE i.ANIMAL_ID = o.ANIMAL_ID
+    AND i.DATETIME > o.DATETIME
+    ORDER BY i.DATETIME
+;
