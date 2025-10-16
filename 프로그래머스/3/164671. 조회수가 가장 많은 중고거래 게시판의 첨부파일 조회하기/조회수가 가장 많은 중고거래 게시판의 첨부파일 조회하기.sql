@@ -1,0 +1,10 @@
+-- 조회수가 가장 높은 게시글의 첨부파일경로. ID 기준 내림차순
+SELECT CONCAT('/home/grep/src/', f.BOARD_ID, '/', f.FILE_ID, f.FILE_NAME, f.FILE_EXT) as FILE_PATH
+FROM USED_GOODS_FILE f, USED_GOODS_BOARD b
+WHERE f.BOARD_ID = b.BOARD_ID
+AND b.VIEWS = (
+    SELECT MAX(VIEWS)
+    FROM USED_GOODS_BOARD
+)
+ORDER BY f.FILE_ID DESC
+;
