@@ -44,8 +44,7 @@ class Main {
             node = queue.poll();
             
             if(node.e <= info[i][0]) {
-                node.e = info[i][1];
-                queue.add(node);
+                queue.add(new Node(info[i][0], info[i][1]));
             }
             else{
                 queue.add(node);
@@ -55,4 +54,5 @@ class Main {
 
         System.out.print(queue.size());
     }
+
 }
