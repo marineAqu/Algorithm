@@ -1,5 +1,4 @@
 import java.util.*;
-import java.lang.*;
 import java.io.*;
 
 class Main {
@@ -7,34 +6,43 @@ class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int n = Integer.parseInt(st.nextToken()); //학생 수
-        int m = Integer.parseInt(st.nextToken()); //최대 블록 수
-        int h = Integer.parseInt(st.nextToken()); //요구 높이
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        int h = Integer.parseInt(st.nextToken());
+        int c;
 
-        LinkedList<Integer> info[] = new LinkedList[n+1];
-        int dp[][] = new int[n+1][h+1];
-        
-        for(int i=1; i<n+1; i++){
-            info[i] = new LinkedList<>();
+        int info[][] = new int[n][m+2];
+        int dp[][] = new int[n][h+1];
+
+        for(int i=0; i<n; i++){
             st = new StringTokenizer(br.readLine());
+            c = 0;
             
             while(st.hasMoreTokens()){
-                info[i].add(Integer.parseInt(st.nextToken()));
+                info[i][c++] = Integer.parseInt(st.nextToken());
             }
+
+            info[i][c+1] = -1;
         }
 
-        for(int i=1; i<n+1; i++){
-            for(int j=1; j<h+1; j++){
-                for(int now : info[i]){
-                    if(j == now) dp[i][j]++;
-                    if(j > now) dp[i][j] += dp[i-1][j-now];
+        for(int q=0; q<m+1; q++){
+            if(info[0][q] == -1) break;
+            dp[0][info[0][q]]++;
+        }
+        
+        for(int i=1; i<n; i++){
+            for(int r=0; r<h+1; r++){
+                for(int q=0; q<m+2; q++){
+                    if(info[i][q] == -1) break;
+                    
+                    if(r + info[i][q] < h+1) {
+                        dp[i][r + info[i][q]] += dp[i-1][r] % 10_007;
+                        dp[i][r + info[i][q]] %= 10_007;
+                    }
                 }
-
-                dp[i][j] += dp[i-1][j];
-                dp[i][j] %= 10007;
             }
         }
-
-        System.out.print(dp[n][h]);
+        
+        System.out.println(dp[n-1][h]);
     }
 }
