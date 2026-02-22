@@ -1,10 +1,9 @@
-SELECT f1.id, n.fish_name, f1.length
-    FROM FISH_INFO f1, FISH_NAME_INFO n
-    WHERE f1.fish_type = n.fish_type
-    AND f1.length =
-        (SELECT MAX(length)
-            FROM FISH_INFO f2
-            WHERE f1.fish_type = f2.fish_type
-        )
-    ORDER BY f1.id
-;
+SELECT i.id as id, n.FISH_NAME as FISH_NAME, i.LENGTH as LENGTH
+FROM FISH_INFO i, FISH_NAME_INFO n
+WHERE i.FISH_TYPE = n.FISH_TYPE
+AND i.LENGTH = (
+    SELECT MAX(LENGTH)
+    FROM FISH_INFO i2
+    WHERE i2.FISH_TYPE = i.FISH_TYPE
+)
+ORDER BY i.id;
