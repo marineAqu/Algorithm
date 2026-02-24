@@ -1,35 +1,36 @@
 class Solution {
     int map[];
+    int count = 0;
     
     public int solution(int n) {
         map = new int[n];
         
-        return queen(n, 0);
+        queen(n, 0);
+        
+        return count;
     }
     
-    private int queen(int n, int depth){
-        if(depth == n){
-            return 1;
+    private void queen(int n, int depth){
+        if(depth == n) {
+            count++;
+            return;
         }
         
-        int sum = 0;
-        boolean flag;
+        boolean flag = true;
         
-        for (int i=0; i<n; i++) {
-            flag = false;
-            for (int r=0; r<depth; r++) { //1
-                if (map[r] == i || i == map[r] + depth - r || i == map[r] - (depth - r)) {
-                    flag = true;
+        for(int i=0; i<n; i++){
+            flag = true;
+            for(int r=0; r<depth; r++){
+                if(map[r] == i || map[r]+(depth - r) == i || map[r]-(depth - r) == i) {
+                    flag = false;
                     break;
                 }
             }
             
-            if(flag) continue;
-            
-            map[depth] = i;
-            sum += queen(n, depth + 1);
+            if(flag){
+                map[depth] = i;
+                queen(n, depth+1);
+            }
         }
-        
-        return sum;
     }
 }
