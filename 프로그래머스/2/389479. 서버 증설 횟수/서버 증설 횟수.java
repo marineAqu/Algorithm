@@ -1,29 +1,36 @@
+import java.util.*;
+
 class Solution {
-    int[] count;
     public int solution(int[] players, int m, int k) {
         int answer = 0;
+        int now;
+        int size;
         
-        //증설 
-        count = new int[players.length];
+        //m명 늘어날 때마다 1대 증설. m명 미만이면 괜찮음
         
-        int calc;
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(0);
         
         for(int i=0; i<players.length; i++){
-            if(count[i] * m < players[i]){
-                calc = (players[i] - (count[i] * m)) / m;
-                addCount(i, k, calc);
-                answer += calc;
+            //한 시간씩 단축
+            
+            while(players[i] / m > queue.size() - 1) {
+                queue.add(k);
+                answer++;
+            }
+            
+            queue.add(0);
+            
+            
+            queue.poll(); //마지막 노드 제거 
+            
+            while(queue.peek() != 0){
+                now = queue.poll();
+                if(now == 1) continue;
+                queue.add(now - 1);
             }
         }
         
         return answer;
-    }
-    
-    private void addCount(int s, int k, int p){
-        for(int i=s; i<s+k; i++){
-            if(i >= count.length) return;
-            
-            count[i] += p;
-        }
     }
 }
